@@ -5,164 +5,369 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gizlilik Politikası — Gift Planner</title>
   <style>
+    :root {
+      --brand: #96573A;
+      --brand-dark: #7A4530;
+      --brand-light: #C08B5A;
+      --brand-soft: #FDF6EE;
+      --text: #1C1C1E;
+      --text-secondary: #6B6560;
+      --border: #E8E0D8;
+      --bg: #F8F4EF;
+      --card: #FFFFFF;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111010;
+        --card: #1C1A18;
+        --text: #F0EAE3;
+        --text-secondary: #9A9088;
+        --border: #2A2622;
+        --brand-soft: #2A1F18;
+      }
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #faf6ee;
-      color: #1c1c1e;
-      line-height: 1.7;
-      padding: 24px 16px 60px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
     }
-    .container { max-width: 720px; margin: 0 auto; }
-    header {
+
+    /* ── Hero header ── */
+    .hero {
+      background: linear-gradient(135deg, #7A4530 0%, #96573A 55%, #C08B5A 100%);
+      padding: 48px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 30%, rgba(255,255,255,0.12) 0%, transparent 60%);
+    }
+    .hero-icon {
+      width: 72px; height: 72px; border-radius: 20px;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px; margin: 0 auto 16px;
+      backdrop-filter: blur(4px);
+    }
+    .hero h1 {
+      font-size: 28px; font-weight: 800; color: #fff;
+      letter-spacing: -0.5px; margin-bottom: 6px;
+    }
+    .hero p {
+      font-size: 14px; color: rgba(255,255,255,0.75);
+      font-weight: 500;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px;
+      padding: 5px 14px; margin-top: 16px;
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.9);
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 760px; margin: 0 auto;
+      padding: 32px 16px 80px;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .toc-title {
+      font-size: 11px; font-weight: 700; color: var(--brand);
+      letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .toc-list {
+      list-style: none;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+    }
+    .toc-list li a {
+      font-size: 13px; color: var(--text-secondary);
+      text-decoration: none; font-weight: 500;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .toc-list li a:hover { color: var(--brand); }
+    .toc-list li a::before {
+      content: ""; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--brand); opacity: 0.5; flex-shrink: 0;
+    }
+    @media (max-width: 480px) { .toc-list { grid-template-columns: 1fr; } }
+
+    /* ── Section card ── */
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 12px;
+      scroll-margin-top: 20px;
+    }
+    .section-header {
       display: flex; align-items: center; gap: 12px;
-      margin-bottom: 36px; padding-bottom: 20px;
-      border-bottom: 1px solid #e8e0d8;
+      margin-bottom: 14px;
     }
-    header .logo {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: #96573a; display: flex; align-items: center;
-      justify-content: center; font-size: 22px;
+    .section-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--brand-soft);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; flex-shrink: 0;
     }
-    header h1 { font-size: 22px; font-weight: 700; color: #1c1c1e; }
-    header p { font-size: 13px; color: #888; margin-top: 2px; }
-    .section { margin-bottom: 28px; }
     .section h2 {
-      font-size: 15px; font-weight: 700; color: #96573a;
-      margin-bottom: 8px; letter-spacing: -0.2px;
+      font-size: 15px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.2px;
     }
-    .section p {
-      font-size: 14px; color: #3d3530; white-space: pre-line;
+    .section p, .section li {
+      font-size: 14px; color: var(--text-secondary);
+      line-height: 1.75;
     }
-    .divider { height: 1px; background: #e8e0d8; margin-bottom: 28px; }
-    footer {
-      margin-top: 40px; padding-top: 20px;
-      border-top: 1px solid #e8e0d8;
-      font-size: 12px; color: #aaa; text-align: center;
+    .section ul {
+      list-style: none; display: flex; flex-direction: column; gap: 6px;
     }
-    footer a { color: #96573a; text-decoration: none; }
-    @media (prefers-color-scheme: dark) {
-      body { background: #121212; color: #f0ece6; }
-      header { border-bottom-color: #2a2a2a; }
-      .section p { color: #c8beb6; }
-      .section h2 { color: #c08b5a; }
-      .divider { background: #2a2a2a; }
-      footer { border-top-color: #2a2a2a; color: #555; }
-      footer a { color: #c08b5a; }
+    .section ul li {
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .section ul li::before {
+      content: "•"; color: var(--brand);
+      font-weight: 700; margin-top: 1px; flex-shrink: 0;
+    }
+    .section a { color: var(--brand); text-decoration: none; font-weight: 500; }
+    .section a:hover { text-decoration: underline; }
+
+    /* ── Highlight callout ── */
+    .callout {
+      background: var(--brand-soft);
+      border-left: 3px solid var(--brand);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      font-size: 13px; color: var(--text-secondary); line-height: 1.6;
+    }
+
+    /* ── Rights grid ── */
+    .rights-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; margin-top: 14px;
+    }
+    @media (max-width: 480px) { .rights-grid { grid-template-columns: 1fr; } }
+    .right-item {
+      background: var(--brand-soft);
+      border-radius: 10px; padding: 12px 14px;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .right-item span:first-child { font-size: 18px; }
+    .right-item .right-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 32px; text-align: center;
+    }
+    .footer-inner {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 999px; padding: 10px 20px;
+      font-size: 13px; color: var(--text-secondary);
+    }
+    .footer-inner a { color: var(--brand); text-decoration: none; font-weight: 600; }
+    .footer-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--border);
+    }
+    .updated {
+      text-align: center; font-size: 12px;
+      color: var(--text-secondary); margin-top: 12px;
     }
   </style>
 </head>
 <body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-icon">🎁</div>
+    <h1>Gizlilik Politikası</h1>
+    <p>Gift Planner · Sevdiklerinle anılarını sakla</p>
+    <div class="hero-badge">🔒 KVKK Uyumlu</div>
+  </div>
+
   <div class="container">
-    <header>
-      <div class="logo">🎁</div>
-      <div>
-        <h1>Gift Planner</h1>
-        <p>Gizlilik Politikası · Mayıs 2026</p>
+
+    <!-- TOC -->
+    <nav class="toc">
+      <div class="toc-title">İçindekiler</div>
+      <ul class="toc-list">
+        <li><a href="#toplanan">Toplanan Veriler</a></li>
+        <li><a href="#kullanim">Verilerin Kullanımı</a></li>
+        <li><a href="#depolama">Veri Depolama</a></li>
+        <li><a href="#analitik">Analitik</a></li>
+        <li><a href="#bildirim">Push Bildirimleri</a></li>
+        <li><a href="#topluluk">Topluluk</a></li>
+        <li><a href="#moderasyon">Moderasyon</a></li>
+        <li><a href="#yasal">Yasal Talepler</a></li>
+        <li><a href="#silme">Hesap Silme</a></li>
+        <li><a href="#haklar">Haklarınız (KVKK)</a></li>
+        <li><a href="#iletisim">İletişim</a></li>
+      </ul>
+    </nav>
+
+    <!-- Intro -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">📋</div>
+        <h2>Genel Bakış</h2>
       </div>
-    </header>
-
-    <div class="section">
-      <h2>Gizlilik Politikası</h2>
-      <p>Bu Gizlilik Politikası, Gift Planner uygulamasının kişisel verilerinizi nasıl topladığını, kullandığını ve koruduğunu açıklamaktadır. 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında hazırlanmıştır.</p>
+      <p>Bu Gizlilik Politikası, <strong>Gift Planner</strong> uygulamasının kişisel verilerinizi nasıl topladığını, kullandığını ve koruduğunu açıklamaktadır. <strong>6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK)</strong> kapsamında hazırlanmıştır.</p>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Toplanan Veriler</h2>
-      <p>• Ad, e-posta adresi ve profil fotoğrafı (kayıt sırasında)
-• Eklediğiniz kişiler ve etkinlik bilgileri
-• Hediye planları ve bütçe verileri
-• Bildirim tercihleri
-• Uygulama kullanım verileri (anonim — PostHog aracılığıyla)
-• Hata ve çökme raporları (anonim — Sentry aracılığıyla)</p>
+    <!-- Toplanan Veriler -->
+    <div class="section" id="toplanan">
+      <div class="section-header">
+        <div class="section-icon">📦</div>
+        <h2>Toplanan Veriler</h2>
+      </div>
+      <ul>
+        <li>Ad, e-posta adresi ve profil fotoğrafı (kayıt sırasında)</li>
+        <li>Eklediğiniz kişiler ve etkinlik bilgileri</li>
+        <li>Hediye planları ve bütçe verileri</li>
+        <li>Bildirim tercihleri</li>
+        <li>Uygulama kullanım verileri (anonim — PostHog aracılığıyla)</li>
+        <li>Hata ve çökme raporları (anonim — Sentry aracılığıyla)</li>
+      </ul>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Verilerin Kullanımı</h2>
-      <p>Verileriniz yalnızca uygulamanın çalışması, hesabınızı yönetmeniz ve size doğum günü/etkinlik hatırlatmaları gönderilmesi amacıyla kullanılır. Verileriniz üçüncü taraflarla pazarlama amacıyla paylaşılmaz.</p>
+    <!-- Kullanım -->
+    <div class="section" id="kullanim">
+      <div class="section-header">
+        <div class="section-icon">⚙️</div>
+        <h2>Verilerin Kullanımı</h2>
+      </div>
+      <p>Verileriniz yalnızca uygulamanın çalışması, hesabınızı yönetmeniz ve size doğum günü/etkinlik hatırlatmaları gönderilmesi amacıyla kullanılır.</p>
+      <div class="callout">🚫 Verileriniz üçüncü taraflarla <strong>pazarlama amacıyla paylaşılmaz.</strong></div>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Veri Depolama</h2>
-      <p>Verileriniz Supabase (Avrupa Birliği sunucuları — eu-central-1 bölgesi) üzerinde güvenli olarak saklanır. Bağlantılar TLS/SSL ile şifrelenir. Uygulama oturumu bilgileri cihazınızın güvenli deposunda (iOS Keychain / Android Keystore) tutulur.</p>
+    <!-- Depolama -->
+    <div class="section" id="depolama">
+      <div class="section-header">
+        <div class="section-icon">🗄️</div>
+        <h2>Veri Depolama</h2>
+      </div>
+      <ul>
+        <li>Sunucu: <strong>Supabase</strong> (AB — eu-central-1 bölgesi)</li>
+        <li>Bağlantılar <strong>TLS/SSL</strong> ile şifrelenir</li>
+        <li>Oturum bilgileri cihazın güvenli deposunda tutulur (iOS Keychain / Android Keystore)</li>
+      </ul>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Analitik ve Hata Raporlama</h2>
-      <p>Uygulama kalitesini iyileştirmek amacıyla anonim kullanım verisi toplanır (PostHog). Çökme ve hata raporları Sentry aracılığıyla iletilir. Bu veriler hiçbir zaman kimliğinizle ilişkilendirilemez. İsterseniz hesap ayarlarından analitik toplamayı devre dışı bırakabilirsiniz.</p>
+    <!-- Analitik -->
+    <div class="section" id="analitik">
+      <div class="section-header">
+        <div class="section-icon">📊</div>
+        <h2>Analitik ve Hata Raporlama</h2>
+      </div>
+      <p>Uygulama kalitesini iyileştirmek amacıyla <strong>anonim</strong> kullanım verisi toplanır (PostHog). Çökme ve hata raporları Sentry aracılığıyla iletilir. Bu veriler hiçbir zaman kimliğinizle ilişkilendirilemez.</p>
+      <div class="callout">💡 Hesap ayarlarından analitik toplamayı istediğiniz zaman devre dışı bırakabilirsiniz.</div>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Push Bildirimleri</h2>
+    <!-- Bildirim -->
+    <div class="section" id="bildirim">
+      <div class="section-header">
+        <div class="section-icon">🔔</div>
+        <h2>Push Bildirimleri</h2>
+      </div>
       <p>Etkinlik hatırlatmaları için cihazınızın push bildirim altyapısı (APNs / FCM) kullanılır. Push token'ınız yalnızca size bildirim göndermek amacıyla işlenir.</p>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Topluluk (Forum)</h2>
-      <p>Topluluk bölümünde açtığınız konular ve yazdığınız yorumlar, giriş yapmış diğer tüm kullanıcılar tarafından görülebilir — bu içerik herkese açıktır.
-
-Topluluğu kullanmak için kayıtlı ve giriş yapmış bir hesabınız olması zorunludur. Paylaşımlarınızı "anonim" olarak işaretleseniz bile içerik sistemde hesabınızla ilişkilendirilir; anonimlik yalnızca diğer kullanıcılara karşı geçerlidir.</p>
+    <!-- Topluluk -->
+    <div class="section" id="topluluk">
+      <div class="section-header">
+        <div class="section-icon">💬</div>
+        <h2>Topluluk (Forum)</h2>
+      </div>
+      <p>Topluluk bölümündeki konular ve yorumlar, giriş yapmış tüm kullanıcılar tarafından görülebilir.</p>
+      <div class="callout">Paylaşımlarınızı "anonim" olarak işaretleseniz bile, içerik sistemde hesabınızla ilişkilendirilir. Anonimlik yalnızca diğer kullanıcılara karşı geçerlidir.</div>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Topluluk Güvenliği ve Moderasyon Verileri</h2>
-      <p>Spam, taciz ve yasa dışı içerikle mücadele amacıyla Topluluk özelliğini kullandığınızda aşağıdaki teknik veriler işlenir:
-• IP adresi
-• Cihaz modeli ve markası
-• İşletim sistemi ve sürümü
-• Uygulama sürümü
-• Hesabınıza atanan anonim kimlik
-
-Bu veriler yalnızca güvenlik ve moderasyon amacıyla, meşru menfaat (KVKK m.5/2-f) kapsamında işlenir; pazarlama amacıyla kullanılmaz.</p>
+    <!-- Moderasyon -->
+    <div class="section" id="moderasyon">
+      <div class="section-header">
+        <div class="section-icon">🛡️</div>
+        <h2>Topluluk Güvenliği ve Moderasyon</h2>
+      </div>
+      <p>Spam ve yasa dışı içerikle mücadele amacıyla aşağıdaki teknik veriler işlenir:</p>
+      <ul style="margin-top:12px">
+        <li>IP adresi</li>
+        <li>Cihaz modeli, markası ve işletim sistemi</li>
+        <li>Uygulama sürümü</li>
+        <li>Hesabınıza atanan anonim kimlik</li>
+      </ul>
+      <div class="callout">Bu veriler yalnızca güvenlik ve moderasyon amacıyla, meşru menfaat (KVKK m.5/2-f) kapsamında işlenir; pazarlama amacıyla kullanılmaz.</div>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>İçerik Moderasyonu</h2>
-      <p>Uygunsuz içerikleri bildirebilirsiniz. Yeterli sayıda bildirim alan içerik otomatik olarak gizlenir. Kendi açtığınız konuları ve yorumları dilediğiniz zaman silebilirsiniz.</p>
+    <!-- Yasal -->
+    <div class="section" id="yasal">
+      <div class="section-header">
+        <div class="section-icon">⚖️</div>
+        <h2>Yasal Talepler</h2>
+      </div>
+      <p>Paylaştığınız içerik yürürlükteki yasaları ihlal ederse, yetkili makamların (savcılık, mahkeme) usulüne uygun talebi üzerine verileriniz yasal süreç çerçevesinde paylaşılabilir. Verileriniz proaktif olarak veya talep olmaksızın üçüncü kişilerle paylaşılmaz.</p>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Yasal Talepler</h2>
-      <p>Paylaştığınız içerik yürürlükteki yasaları ihlal ederse, yetkili makamların usulüne uygun talebi üzerine verileriniz yasal süreç çerçevesinde paylaşılabilir. Verileriniz proaktif olarak veya talep olmaksızın üçüncü kişilerle paylaşılmaz.</p>
+    <!-- Silme -->
+    <div class="section" id="silme">
+      <div class="section-header">
+        <div class="section-icon">🗑️</div>
+        <h2>Hesap Kapatma ve Veri Saklama</h2>
+      </div>
+      <p>Hesabınızı sildiğinizde; kişiler, hediye planları, bütçe ve profil fotoğrafınız kalıcı olarak silinir. Güvenlik ve yasal yükümlülükler kapsamında topluluk paylaşımları, e-posta ve IP/cihaz bilgileri sınırlı süre saklanır.</p>
+      <div class="callout">📱 Uygulama içinden: <strong>Hesap Ayarları → Hesabı Sil</strong></div>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Hesap Kapatma ve Veri Saklama</h2>
-      <p>Hesabınızı sildiğinizde kişisel verileriniz — kişiler, hediye planları, bütçe, bildirim ayarları ve profil fotoğrafınız — silinir. Güvenlik ve yasal yükümlülükler kapsamında topluluk paylaşımları, anonim kimlik, e-posta ve IP/cihaz bilgileri sınırlı süre saklanır; süre sonunda silinir.</p>
+    <!-- Haklar -->
+    <div class="section" id="haklar">
+      <div class="section-header">
+        <div class="section-icon">✅</div>
+        <h2>Haklarınız (KVKK)</h2>
+      </div>
+      <div class="rights-grid">
+        <div class="right-item"><span>🔍</span><span class="right-text">Verilerinize erişim talep etme</span></div>
+        <div class="right-item"><span>✏️</span><span class="right-text">Yanlış verilerin düzeltilmesini isteme</span></div>
+        <div class="right-item"><span>🗑️</span><span class="right-text">Verilerinizin silinmesini talep etme</span></div>
+        <div class="right-item"><span>🚫</span><span class="right-text">Veri işlemeye itiraz etme</span></div>
+      </div>
     </div>
-    <div class="divider"></div>
 
-    <div class="section">
-      <h2>Haklarınız (KVKK)</h2>
-      <p>KVKK kapsamında şu haklara sahipsiniz:
-• Verilerinize erişim talep etme
-• Yanlış verilerin düzeltilmesini isteme
-• Verilerinizin silinmesini talep etme
-• Veri işlemeye itiraz etme
-
-Uygulama içinden Hesap Ayarları → Hesabı Sil seçeneğiyle hesabınızı kapatabilirsiniz.</p>
-    </div>
-    <div class="divider"></div>
-
-    <div class="section">
-      <h2>İletişim</h2>
+    <!-- İletişim -->
+    <div class="section" id="iletisim">
+      <div class="section-header">
+        <div class="section-icon">📬</div>
+        <h2>İletişim</h2>
+      </div>
       <p>Gizlilik ile ilgili sorularınız için: <a href="mailto:privacy@giftplanner.app">privacy@giftplanner.app</a></p>
     </div>
 
-    <footer>
-      &copy; 2026 Gift Planner &nbsp;·&nbsp;
-      <a href="mailto:destek@giftplanner.app">destek@giftplanner.app</a>
-    </footer>
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-inner">
+        <span>© 2026 Gift Planner</span>
+        <span class="footer-dot"></span>
+        <a href="mailto:destek@giftplanner.app">destek@giftplanner.app</a>
+      </div>
+      <p class="updated">Son güncelleme: Mayıs 2026</p>
+    </div>
+
   </div>
 </body>
 </html>
